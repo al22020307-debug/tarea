@@ -8,9 +8,19 @@ function App() {
   const [tareas, setTareas] = useState([]);
   const [nuevaTarea, setNuevaTarea] = useState("");
   const [editandoId, setEditandoId] = useState(null);
-  const [completadas, setCompletadas] = useState({});
+
+  // 1. MODIFICACIÓN: Cargar el estado inicial de "completadas" desde localStorage
+  const [completadas, setCompletadas] = useState(() => {
+    const guardado = localStorage.getItem('tareas-logradas-status');
+    return guardado ? JSON.parse(guardado) : {};
+  });
 
   const API_URL = "https://nhalx3r978.execute-api.us-east-1.amazonaws.com/tareas";
+
+  // 2. MODIFICACIÓN: Guardar en localStorage cada vez que el estado 'completadas' cambie
+  useEffect(() => {
+    localStorage.setItem('tareas-logradas-status', JSON.stringify(completadas));
+  }, [completadas]);
 
   const getHeaders = async () => {
     try {
@@ -52,7 +62,6 @@ function App() {
     <Authenticator.Provider>
       <div className="App">
         <h1>Mis Tareas ✨</h1>
-
         <Authenticator>
           {({ signOut, user }) => (
             <main>
@@ -73,7 +82,6 @@ function App() {
                 </button>
               </div>
               
-              {/* RECUADRO PENDIENTES */}
               <div className="section-container pending-section">
                 <h2 className="section-title">Pendientes 🎀</h2>
                 <ul className="task-list-display">
@@ -90,7 +98,6 @@ function App() {
                 </ul>
               </div>
 
-              {/* RECUADRO LOGRADO */}
               {tareasHechas.length > 0 && (
                 <div className="section-container done-section">
                   <h2 className="section-title">¡Logrado! 🌸</h2>
