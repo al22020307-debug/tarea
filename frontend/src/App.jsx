@@ -10,7 +10,7 @@ function App() {
   const [editandoId, setEditandoId] = useState(null);
   const [completadas, setCompletadas] = useState({});
 
-  const API_URL = "https://sef1f2a0y9.execute-api.us-east-1.amazonaws.com/tareas";
+  const API_URL = "https://nhalx3r978.execute-api.us-east-1.amazonaws.com/tareas";
 
   const getHeaders = async () => {
     try {
